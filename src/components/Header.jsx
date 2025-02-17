@@ -7,6 +7,8 @@ const Header = () => {
   const [openNavbarList, setOpenNavbarList] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isFieldSearch, setIsFieldSearch] = useState(false);
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [downBgWhite, setDownBgWhite] = useState(false);
 
   useEffect(() => {
     // untuk bug agar ketika md state nya jadi false lagi
@@ -18,12 +20,24 @@ const Header = () => {
 
     // untuk scroll
     const handleScroll = () => {
-      if (window.scrollY > 200) {
-        setIsScrolled(true);
-        setOpenNavbarList(false);
+      const currentScrollPos = window.scrollY;
+
+      // jika scroll ke bawah sejauh 200px
+      if (currentScrollPos > 200) {
+        if (currentScrollPos < prevScrollPos) {
+          // jika scroll ke atas, tampilkan navbar
+          setIsScrolled(false);
+        } else {
+          // jika scroll ke bawah, sembunyikan navbar
+          setIsScrolled(true);
+          setDownBgWhite(true);
+        }
       } else {
         setIsScrolled(false);
+        setDownBgWhite(false);
       }
+
+      setPrevScrollPos(currentScrollPos);
     };
 
     // event listener
@@ -35,18 +49,16 @@ const Header = () => {
       window.removeEventListener("resize", handleResize);
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [prevScrollPos]);
 
-  const showBg = openNavbarList
-    ? "bg-white text-black rounded-b-3xl"
-    : "text-white";
   const showList = openNavbarList ? "block" : "hidden";
   const hiddenNav = isScrolled ? "hidden" : "block";
+  const bgWhite = downBgWhite ? "bg-white text-black" : "text-white";
 
   return (
-    <header className={`w-full fixed z-50 ${hiddenNav}`}>
+    <header className={`w-full fixed z-50`}>
       <nav
-        className={`px-7 py-5 flex flex-col gap-7 ${showBg} md:items-center md:justify-between md:flex-row md:px-20`}
+        className={`px-7 py-5 flex flex-col gap-7 md:items-center md:justify-between md:flex-row md:px-20 ${hiddenNav} ${bgWhite}`}
       >
         {/* logo */}
         <div className="flex items-center justify-between">

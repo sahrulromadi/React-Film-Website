@@ -5,7 +5,7 @@ import "swiper/css/pagination";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 import { useFetchMovies } from "../../hooks/useFetchMovies";
 
-const Hero = () => {
+export const Hero = () => {
   const imgUrl = import.meta.env.VITE_BASE_IMG_URL;
   const { movies } = useFetchMovies("trendingAll");
 
@@ -70,5 +70,3 @@ const Hero = () => {
     </section>
   );
 };
-
-export default Hero;
