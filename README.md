@@ -1,8 +1,8 @@
-# React + Vite
+## **Screenshot**
+![FireShot Capture 052 - T-Film -  localhost](https://github.com/user-attachments/assets/a1528470-d579-4405-a37b-3e04fab4df55)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![FireShot Capture 048 - T-Film -  localhost](https://github.com/user-attachments/assets/228bade4-6aaa-4607-977f-34d1197581bd)
 
-Currently, two official plugins are available:
+![FireShot Capture 049 - T-Film -  localhost](https://github.com/user-attachments/assets/67ce1335-0f36-4450-adb1-0095e73fa75a)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![FireShot Capture 051 - T-Film -  localhost](https://github.com/user-attachments/assets/90ac26ee-ea38-4f2d-b51a-e636b6e7df2f)
