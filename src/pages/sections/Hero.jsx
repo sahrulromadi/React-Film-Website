@@ -7,7 +7,8 @@ import { useFetchMovies } from "../../hooks/useFetchMovies";
 
 export const Hero = () => {
   const imgUrl = import.meta.env.VITE_BASE_IMG_URL;
-  const { movies: allContent } = useFetchMovies("trendingAll");
+  const { movies: allContent, fallback_image_url } =
+    useFetchMovies("trendingAll");
 
   return (
     <section className="relative">
@@ -31,7 +32,7 @@ export const Hero = () => {
                   src={
                     data.backdrop_path
                       ? `${imgUrl}${data.backdrop_path}`
-                      : "fallback_image_url"
+                      : `${fallback_image_url}`
                   }
                   alt={`banner-${data.title}`}
                   className="w-full h-full"
@@ -56,7 +57,7 @@ export const Hero = () => {
                     src={
                       data.poster_path
                         ? `${imgUrl}${data.poster_path}`
-                        : "fallback_image_url"
+                        : `${fallback_image_url}`
                     }
                     alt={`cover-${data.title}`}
                     className="w-52 h-72 rounded-lg object-contain md:shadow-2xl md:w-64 md:h-96"

@@ -86,3 +86,24 @@ export const fetchDetailSeries = async (id) => {
     throw error;
   }
 };
+
+export const fetchSearchMulti = async (query) => {
+  try {
+    const response = await axiosInstance.get(`${baseURL}search/multi`, {
+      params: {
+        query,
+        include_adult: false,
+        language: "en-US",
+        page: 1,
+      },
+    });
+
+    const filteredResults = response.data.results.filter(
+      (item) => item.media_type === "movie" || item.media_type === "tv"
+    );
+  
+    return filteredResults;
+  } catch (error) {
+    throw error;
+  }
+};

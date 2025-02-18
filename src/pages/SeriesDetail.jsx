@@ -5,8 +5,11 @@ import { useFetchMovies } from "../hooks/useFetchMovies";
 const SeriesDetail = () => {
   const imgUrl = import.meta.env.VITE_BASE_IMG_URL;
   const { id } = useParams();
-  const { movie: series } = useFetchMovies("seriesDetail", id);
- 
+  const { movie: series, fallback_image_url } = useFetchMovies(
+    "seriesDetail",
+    id
+  );
+
   return (
     <div className="min-h-screen bg-black text-white py-10">
       <div className="container mx-auto px-4">
@@ -18,7 +21,7 @@ const SeriesDetail = () => {
               src={
                 series?.poster_path
                   ? `${imgUrl}${series.poster_path}`
-                  : "fallback_image_url"
+                  : `${fallback_image_url}`
               }
               alt={series?.name}
               className="rounded-lg w-full md:w-[300px]"

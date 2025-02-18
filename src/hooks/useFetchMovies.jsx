@@ -5,11 +5,13 @@ import {
   fetchSeriesPopular,
   fetchDetailMovie,
   fetchDetailSeries,
+  fetchSearchMulti,
 } from "../services/api";
 
 export const useFetchMovies = (endpoint, id) => {
   const [movies, setMovies] = useState([]);
   const [movie, setMovie] = useState(null);
+  const fallback_image_url = "/assets/img/imgNotFound.png";
 
   const getMovies = async () => {
     try {
@@ -40,6 +42,11 @@ export const useFetchMovies = (endpoint, id) => {
           data = await fetchDetailSeries(id);
           setMovie(data);
           break;
+
+        case "searchMulti":
+          data = await fetchSearchMulti(id); // id = query
+          setMovies(data);
+          break;
       }
     } catch (error) {
       console.error(error.message);
@@ -50,5 +57,5 @@ export const useFetchMovies = (endpoint, id) => {
     getMovies();
   }, [endpoint, id]);
 
-  return { movies, movie };
+  return { movies, movie, fallback_image_url };
 };

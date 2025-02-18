@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import Logo from "../../public/assets/img/logo.png";
 import "remixicon/fonts/remixicon.css";
 import { NavLink, Link } from "react-router";
+import { useFetchMovies } from "../hooks/useFetchMovies";
 
 const Header = () => {
+  const imgUrl = import.meta.env.VITE_BASE_IMG_URL;
   const [openNavbarList, setOpenNavbarList] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isFieldSearch, setIsFieldSearch] = useState(false);
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [downBgWhite, setDownBgWhite] = useState(false);
+  const [query, setQuery] = useState("");
+  const { movies, fallback_image_url } = useFetchMovies("searchMulti", query);
 
   useEffect(() => {
     // untuk bug agar ketika md state nya jadi false lagi
@@ -123,7 +127,7 @@ const Header = () => {
         {/* list end */}
       </nav>
 
-      {/* Full-Screen Search Box */}
+      {/* search */}
       {isFieldSearch && (
         <div className="fixed inset-0 w-full h-full bg-black bg-opacity-95 flex justify-center items-center z-50">
           <div className="w-full max-w-2xl px-4">
@@ -133,6 +137,7 @@ const Header = () => {
                 placeholder="Search movies or series..."
                 className="w-full px-6 py-4 rounded-lg bg-white text-black placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 text-lg"
                 autoFocus
+                onChange={(e) => setQuery(e.target.value)}
               />
               <button
                 className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-red-500"
@@ -141,10 +146,51 @@ const Header = () => {
                 <i className="ri-close-line text-3xl"></i>
               </button>
             </div>
+
+            {/* tampilkan hasil pencarian */}
+            {query && (
+              <div className="mt-6 max-h-96 overflow-y-auto bg-white rounded-lg shadow-lg p-4">
+                {movies.length > 0 ? (
+                  movies.map((item) => (
+                    <Link
+                      key={item.id}
+                      to={`/${
+                        item.media_type === "movie" ? "movies" : "series"
+                      }/${item.id}`}
+                      className="block p-2 hover:bg-gray-100 rounded-lg"
+                      onClick={() => setIsFieldSearch(false)}
+                    >
+                      <div className="flex items-center gap-3">
+                        <img
+                          src={
+                            item.poster_path
+                              ? `${imgUrl}${item.poster_path}`
+                              : `${fallback_image_url}`
+                          }
+                          alt={item.title || item.name}
+                          className="w-12 h-16 object-cover rounded-lg"
+                        />
+                        <div>
+                          <p className="font-semibold">
+                            {item.title || item.name}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            {item.media_type === "movie"
+                              ? "Movie"
+                              : "TV Series"}
+                          </p>
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p className="text-center text-gray-500">No results found.</p>
+                )}
+              </div>
+            )}
           </div>
         </div>
       )}
-      {/* Full-Screen Search Box End */}
     </header>
   );
 };
