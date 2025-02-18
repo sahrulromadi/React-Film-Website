@@ -53,7 +53,8 @@ const Header = () => {
 
   const showList = openNavbarList ? "block" : "hidden";
   const hiddenNav = isScrolled ? "hidden" : "block";
-  const bgWhite = downBgWhite ? "bg-white text-black" : "text-white";
+  const bgWhite =
+    downBgWhite || openNavbarList ? "bg-white text-black" : "text-white";
 
   return (
     <header className={`w-full fixed z-50`}>

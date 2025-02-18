@@ -1,10 +1,10 @@
 import React from "react";
 import { useFetchMovies } from "../../hooks/useFetchMovies";
-import { MovieCard } from "../../components/MovieCard";
+import { Card } from "../../components/Card";
 import { Link } from "react-router";
 
 const SeriesPopular = () => {
-  const { movies } = useFetchMovies("seriesPopular");
+  const { movies: series } = useFetchMovies("seriesPopular");
 
   return (
     <section className="px-7 space-y-5 text-white md:px-20">
@@ -19,9 +19,9 @@ const SeriesPopular = () => {
       </div>
       <div className="flex whitespace-nowrap overflow-x-auto gap-4 scrollbar-hide">
         {/* items */}
-        {movies &&
-          movies.map((data, index) => (
-            <MovieCard data={data} title={data.name} key={index} />
+        {series &&
+          series.map((data, index) => (
+            <Card data={data} key={index} type={"series"} />
           ))}
         {/* items end */}
       </div>

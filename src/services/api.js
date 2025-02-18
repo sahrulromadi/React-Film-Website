@@ -3,19 +3,24 @@ import axios from "axios";
 const baseURL = import.meta.env.VITE_BASE_URL;
 const APIKey = import.meta.env.VITE_TMDB_API_KEY;
 
+// gunakan axios instance untuk meminimalisir duplikasi
+const axiosInstance = axios.create({
+  baseURL: baseURL,
+  headers: {
+    accept: "application/json",
+    Authorization: `Bearer ${APIKey}`,
+  },
+});
+
 export const fetchTrendingAll = async () => {
   try {
-    const response = await axios.get(`${baseURL}trending/all/day`, {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${APIKey}`,
-      },
+    const response = await axiosInstance.get(`${baseURL}trending/all/day`, {
       params: {
         language: "en-US",
         page: 1,
       },
     });
-    console.log(response.data.results);
+
     return response.data.results;
   } catch (error) {
     throw error;
@@ -24,11 +29,7 @@ export const fetchTrendingAll = async () => {
 
 export const fetchMoviesPopular = async () => {
   try {
-    const response = await axios.get(`${baseURL}movie/popular`, {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${APIKey}`,
-      },
+    const response = await axiosInstance.get(`${baseURL}movie/popular`, {
       params: {
         language: "en-US",
         page: 1,
@@ -43,11 +44,7 @@ export const fetchMoviesPopular = async () => {
 
 export const fetchSeriesPopular = async () => {
   try {
-    const response = await axios.get(`${baseURL}tv/popular`, {
-      headers: {
-        accept: "application/json",
-        Authorization: `Bearer ${APIKey}`,
-      },
+    const response = await axiosInstance.get(`${baseURL}tv/popular`, {
       params: {
         language: "en-US",
         page: 1,
@@ -55,6 +52,36 @@ export const fetchSeriesPopular = async () => {
     });
 
     return response.data.results;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchDetailMovie = async (id) => {
+  try {
+    const response = await axiosInstance.get(`${baseURL}movie/${id}`, {
+      params: {
+        language: "en-US",
+        page: 1,
+      },
+    });
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchDetailSeries = async (id) => {
+  try {
+    const response = await axiosInstance.get(`${baseURL}tv/${id}`, {
+      params: {
+        language: "en-US",
+        page: 1,
+      },
+    });
+
+    return response.data;
   } catch (error) {
     throw error;
   }

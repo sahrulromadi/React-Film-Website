@@ -7,7 +7,7 @@ import { useFetchMovies } from "../../hooks/useFetchMovies";
 
 export const Hero = () => {
   const imgUrl = import.meta.env.VITE_BASE_IMG_URL;
-  const { movies } = useFetchMovies("trendingAll");
+  const { movies: allContent } = useFetchMovies("trendingAll");
 
   return (
     <section className="relative">
@@ -21,8 +21,8 @@ export const Hero = () => {
         className="mySwiper"
       >
         {/* items */}
-        {movies &&
-          movies.slice(0, 5).map((data, index) => (
+        {allContent &&
+          allContent.slice(0, 5).map((data, index) => (
             <SwiperSlide key={index}>
               {/* banner */}
               <div className="bg-black absolute inset-0 z-10 opacity-50"></div>

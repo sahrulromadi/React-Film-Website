@@ -7,6 +7,8 @@ import { Routes, Route } from "react-router";
 import MoviesList from "./pages/MoviesList";
 import { Hero } from "../src/pages/sections/Hero";
 import SeriesList from "./pages/SeriesList";
+import MovieDetail from "./pages/MovieDetail";
+import SeriesDetail from "./pages/SeriesDetail";
 
 const App = () => {
   return (
@@ -17,7 +19,9 @@ const App = () => {
         <Routes>
           <Route index element={<Home />} />
           <Route path="movies" element={<MoviesList />} />
+          <Route path="movies/:id" element={<MovieDetail />} />
           <Route path="series" element={<SeriesList />} />
+          <Route path="series/:id" element={<SeriesDetail />} />
         </Routes>
       </main>
       <Footer />

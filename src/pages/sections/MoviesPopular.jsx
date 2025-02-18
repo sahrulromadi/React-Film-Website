@@ -1,5 +1,5 @@
 import React from "react";
-import { MovieCard } from "../../components/MovieCard";
+import { Card } from "../../components/Card";
 import { useFetchMovies } from "../../hooks/useFetchMovies";
 import { Link } from "react-router";
 
@@ -21,7 +21,11 @@ const MoviesPopular = () => {
         {/* items */}
         {movies &&
           movies.map((data, index) => (
-            <MovieCard data={data} title={data.title} key={index} />
+            <Card
+              data={data}
+              key={index}
+              type={"movies"}
+            />
           ))}
         {/* items end */}
       </div>
