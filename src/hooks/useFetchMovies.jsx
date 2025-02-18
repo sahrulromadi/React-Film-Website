@@ -12,8 +12,14 @@ export const useFetchMovies = (endpoint, id) => {
   const [movies, setMovies] = useState([]);
   const [movie, setMovie] = useState(null);
   const fallback_image_url = "/assets/img/imgNotFound.png";
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const getMovies = async () => {
+    // awal2 akan loading
+    setIsLoading(true);
+    setError(null);
+
     try {
       let data;
 
@@ -47,9 +53,16 @@ export const useFetchMovies = (endpoint, id) => {
           data = await fetchSearchMulti(id); // id = query
           setMovies(data);
           break;
+
+        default:
+          throw new Error("Invalid endpoint");
       }
     } catch (error) {
       console.error(error.message);
+      setError(error.message);
+    } finally {
+      // loading akan di hilangkan entah apa yang terjadi
+      setIsLoading(false);
     }
   };
 
@@ -57,5 +70,5 @@ export const useFetchMovies = (endpoint, id) => {
     getMovies();
   }, [endpoint, id]);
 
-  return { movies, movie, fallback_image_url };
+  return { movies, movie, fallback_image_url, isLoading, error };
 };

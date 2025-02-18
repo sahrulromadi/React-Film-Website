@@ -7,11 +7,26 @@ import { useFetchMovies } from "../../hooks/useFetchMovies";
 
 export const Hero = () => {
   const imgUrl = import.meta.env.VITE_BASE_IMG_URL;
-  const { movies: allContent, fallback_image_url } =
-    useFetchMovies("trendingAll");
+  const {
+    movies: allContent,
+    fallback_image_url,
+    isLoading,
+    error,
+  } = useFetchMovies("trendingAll");
 
   return (
     <section className="relative">
+      {isLoading && (
+        <div className="absolute flex justify-center items-center bg-black bg-opacity-50 z-20">
+          <p className="text-white text-2xl">Loading...</p>
+        </div>
+      )}
+      {error && (
+        <div className="absolute flex justify-center items-center bg-black bg-opacity-50 z-20">
+          <p className="text-red-500 text-2xl">Error: {error}</p>
+        </div>
+      )}
+
       <Swiper
         modules={[Autoplay, Pagination, Navigation]}
         spaceBetween={0}
@@ -22,9 +37,10 @@ export const Hero = () => {
         className="mySwiper"
       >
         {/* items */}
-        {allContent &&
-          allContent.slice(0, 5).map((data, index) => (
-            <SwiperSlide key={index}>
+        {!isLoading &&
+          !error &&
+          allContent.slice(0, 5).map((data) => (
+            <SwiperSlide key={data.id}>
               {/* banner */}
               <div className="bg-black absolute inset-0 z-10 opacity-50"></div>
               <div className="banner absolute inset-0 h-full w-full">

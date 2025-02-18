@@ -4,7 +4,7 @@ import { Card } from "../../components/Card";
 import { Link } from "react-router";
 
 const SeriesPopular = () => {
-  const { movies: series } = useFetchMovies("seriesPopular");
+  const { movies: series, isLoading, error } = useFetchMovies("seriesPopular");
 
   return (
     <section className="px-7 space-y-5 text-white md:px-20">
@@ -17,9 +17,14 @@ const SeriesPopular = () => {
           View More
         </Link>
       </div>
+
+      {isLoading && <p className="text-gray-400">Loading...</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
+
       <div className="flex whitespace-nowrap overflow-x-auto gap-4 scrollbar-hide">
         {/* items */}
-        {series &&
+        {!isLoading &&
+          !error &&
           series.map((data, index) => (
             <Card data={data} key={index} type={"series"} />
           ))}

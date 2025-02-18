@@ -4,7 +4,7 @@ import { useFetchMovies } from "../../hooks/useFetchMovies";
 import { Link } from "react-router";
 
 const MoviesPopular = () => {
-  const { movies } = useFetchMovies("moviesPopular");
+  const { movies, isLoading, error } = useFetchMovies("moviesPopular");
 
   return (
     <section className="px-7 space-y-5 text-white md:px-20">
@@ -17,15 +17,16 @@ const MoviesPopular = () => {
           View More
         </Link>
       </div>
+
+      {isLoading && <p className="text-gray-400">Loading...</p>}
+      {error && <p className="text-red-500">Error: {error}</p>}
+
       <div className="flex whitespace-nowrap overflow-x-auto gap-4 scrollbar-hide">
         {/* items */}
-        {movies &&
-          movies.map((data, index) => (
-            <Card
-              data={data}
-              key={index}
-              type={"movies"}
-            />
+        {!isLoading &&
+          !error &&
+          movies.map((data) => (
+            <Card data={data} key={data.id} type={"movies"} />
           ))}
         {/* items end */}
       </div>

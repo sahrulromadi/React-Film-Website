@@ -14,7 +14,7 @@ const axiosInstance = axios.create({
 
 export const fetchTrendingAll = async () => {
   try {
-    const response = await axiosInstance.get(`${baseURL}trending/all/day`, {
+    const response = await axiosInstance.get(`trending/all/day`, {
       params: {
         language: "en-US",
         page: 1,
@@ -23,13 +23,14 @@ export const fetchTrendingAll = async () => {
 
     return response.data.results;
   } catch (error) {
+    console.error("error fetching data: ", error.message);
     throw error;
   }
 };
 
 export const fetchMoviesPopular = async () => {
   try {
-    const response = await axiosInstance.get(`${baseURL}movie/popular`, {
+    const response = await axiosInstance.get(`movie/popular`, {
       params: {
         language: "en-US",
         page: 1,
@@ -38,13 +39,14 @@ export const fetchMoviesPopular = async () => {
 
     return response.data.results;
   } catch (error) {
+    console.error("error fetching data: ", error.message);
     throw error;
   }
 };
 
 export const fetchSeriesPopular = async () => {
   try {
-    const response = await axiosInstance.get(`${baseURL}tv/popular`, {
+    const response = await axiosInstance.get(`tv/popular`, {
       params: {
         language: "en-US",
         page: 1,
@@ -53,13 +55,14 @@ export const fetchSeriesPopular = async () => {
 
     return response.data.results;
   } catch (error) {
+    console.error("error fetching data: ", error.message);
     throw error;
   }
 };
 
 export const fetchDetailMovie = async (id) => {
   try {
-    const response = await axiosInstance.get(`${baseURL}movie/${id}`, {
+    const response = await axiosInstance.get(`movie/${id}`, {
       params: {
         language: "en-US",
         page: 1,
@@ -68,13 +71,14 @@ export const fetchDetailMovie = async (id) => {
 
     return response.data;
   } catch (error) {
+    console.error("error fetching data: ", error.message);
     throw error;
   }
 };
 
 export const fetchDetailSeries = async (id) => {
   try {
-    const response = await axiosInstance.get(`${baseURL}tv/${id}`, {
+    const response = await axiosInstance.get(`tv/${id}`, {
       params: {
         language: "en-US",
         page: 1,
@@ -83,13 +87,21 @@ export const fetchDetailSeries = async (id) => {
 
     return response.data;
   } catch (error) {
+    console.error("error fetching data: ", error.message);
     throw error;
   }
 };
 
+// filter
+const filterMediaResults = (results) => {
+  return results.filter(
+    (item) => item.media_type === "movie" || item.media_type === "tv"
+  );
+};
+
 export const fetchSearchMulti = async (query) => {
   try {
-    const response = await axiosInstance.get(`${baseURL}search/multi`, {
+    const response = await axiosInstance.get(`search/multi`, {
       params: {
         query,
         include_adult: false,
@@ -98,12 +110,9 @@ export const fetchSearchMulti = async (query) => {
       },
     });
 
-    const filteredResults = response.data.results.filter(
-      (item) => item.media_type === "movie" || item.media_type === "tv"
-    );
-  
-    return filteredResults;
+    return filterMediaResults(response.data.results);
   } catch (error) {
+    console.error("error fetching data: ", error.message);
     throw error;
   }
 };

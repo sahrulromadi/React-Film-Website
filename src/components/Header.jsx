@@ -12,7 +12,10 @@ const Header = () => {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [downBgWhite, setDownBgWhite] = useState(false);
   const [query, setQuery] = useState("");
-  const { movies, fallback_image_url } = useFetchMovies("searchMulti", query);
+  const { movies, fallback_image_url, isLoading, error } = useFetchMovies(
+    "searchMulti",
+    query
+  );
 
   useEffect(() => {
     // untuk bug agar ketika md state nya jadi false lagi
@@ -147,8 +150,18 @@ const Header = () => {
               </button>
             </div>
 
+            {isLoading && (
+              <div className="text-center my-8 text-white">Loading...</div>
+            )}
+
+            {error && (
+              <div className="text-center my-8 text-red-500">
+                Error fetching data: {error}
+              </div>
+            )}
+
             {/* tampilkan hasil pencarian */}
-            {query && (
+            {!isLoading && !error && query && (
               <div className="mt-6 max-h-96 overflow-y-auto bg-white rounded-lg shadow-lg p-4">
                 {movies.length > 0 ? (
                   movies.map((item) => (
